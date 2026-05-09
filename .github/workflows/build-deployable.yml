@@ -16,7 +16,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test with the dotnet CLI
-      run: dotnet test --no-build
+      run: dotnet test --configuration Release --no-build
     - name: Publish
       run: dotnet publish FarmAPI/FarmAPI.csproj --configuration Release --no-build --output ./publish
     - uses: actions/upload-artifact@v4
