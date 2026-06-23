@@ -29,8 +29,7 @@ var animals = AnimalItem.GetSampleAnimals();
 
 // API Routes
 app.MapGet("/animals", () => animals)
-    .WithName("GetAllAnimals")
-    .WithOpenApi();
+    .WithName("GetAllAnimals");
 
 app.MapPost("/animals", (AnimalItem animal) =>
 {
@@ -42,20 +41,18 @@ app.MapPost("/animals", (AnimalItem animal) =>
     animals.Add(animal);
     return Results.Created($"/animals/{animals.Count}", animal);
 })
-    .WithName("AddAnimal")
-    .WithOpenApi();
+    .WithName("AddAnimal");
 
 app.MapDelete("/animals/{name}", (string name) =>
 {
     var animal = animals.FirstOrDefault(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
     if (animal is null)
         return Results.NotFound();
-    
+
     animals.Remove(animal);
     return Results.NoContent();
 })
-    .WithName("RemoveAnimal")
-    .WithOpenApi();
+    .WithName("RemoveAnimal");
 
 // add a route to return all animals of a certain species
 app.MapGet("/animals/species/{species}", (string species) =>
@@ -63,14 +60,13 @@ app.MapGet("/animals/species/{species}", (string species) =>
     var speciesAnimals = animals
         .Where(a => a.Species.Equals(species, StringComparison.OrdinalIgnoreCase))
         .ToList();
-    
+
     if (speciesAnimals.Count == 0)
         return Results.NotFound($"No animals found with species: {species}");
-    
+
     return Results.Ok(speciesAnimals);
 })
-    .WithName("GetAnimalsBySpecies")
-    .WithOpenApi();
+    .WithName("GetAnimalsBySpecies");
 
 // add a route to return a random animal
 app.MapGet("/animals/random", () =>
@@ -79,7 +75,6 @@ app.MapGet("/animals/random", () =>
     int index = random.Next(animals.Count);
     return animals[index];
 })
-    .WithName("GetRandomAnimal")
-    .WithOpenApi();
+    .WithName("GetRandomAnimal");
 
 app.Run();
